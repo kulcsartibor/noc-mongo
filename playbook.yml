@@ -1,0 +1,19 @@
+# - hosts: all
+#   roles:
+#     - basic
+
+---
+- hosts: mongodb_cluster
+  vars:
+    etc_hosts_add_all_hosts: true
+    mongodb_config_mongodb: true
+    mongodb_bind_ip:
+    - 0.0.0.0
+    # - "{{ ansible_enp0s8['ipv4']['address'] }}"
+    mongodb_replication: true
+    pri_domain_name: local
+  roles:
+    # - role: ansible-etc-hosts
+    - role: mongodb
+    #   become: true
+  tasks: []

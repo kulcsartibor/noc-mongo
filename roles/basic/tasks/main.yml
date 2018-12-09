@@ -1,0 +1,12 @@
+- name: "Installing Base packages"
+  apt:
+    pkg: ['dnsutils', 'git', 'vim', 'ntp', 'at', 'lvm2']
+    state: present
+
+# - name: "Adding bashrc"
+#   copy:
+#     src: ../files/bash.bashrc
+#     dest: /etc/bash.bashrc
+#     owner: root
+#     group: root
+#     mode: 0644

@@ -1,0 +1,39 @@
+- name: "Installing required software"
+  apt:
+    pkg: ['gunicorn', 'supervisor', 'python-mysqldb', 'python-falcon']
+    state: present
+
+- name: "Making sure supervisor enabled and started"
+  service:
+    name: supervisor
+    state: started
+    enabled: yes
+
+- name: "Creating base foldert for application"
+  file:
+    path: /opt/testapp
+    state: directory
+    owner: nobody
+    group: nogroup
+    mode: 0755
+
+- name: "Copy the application"
+  copy:
+    src: ../files/testapp.py
+    dest: /opt/testapp/testapp.py
+    owner: nobody
+    group: nogroup
+    mode: 0755
+  notify:
+    - restart-app
+
+- name: "Copy the supervisor config"
+  template:
+    src: ../files/testapp.conf
+    dest: /etc/supervisor/conf.d/testapp.conf
+    owner: nobody
+    group: nogroup
+    mode: 0644
+  notify:
+    - reread-config
+    - restart-app
